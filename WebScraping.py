@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from typing import Dict
+from typing import Dict,List
 import re
 
 
@@ -63,7 +63,7 @@ class BioProject:
         return projectid
 
     @staticmethod
-    def _sra_name_get(soup):
+    def _sra_name_get(soup:BeautifulSoup)->str:
         '''SRAから始まるIDを取得
 
         Parameters
@@ -113,21 +113,27 @@ class BioProject:
         '''
 
         c_tr=[]
-        retlist = [] 
-        tag,samn,html,soup= "","","","" 
-        column,value,str,i = "","","","" 
-        flag:int = 0 
+        retlist = [] #type:List[str]
+
+        #tag = ""      #type:str
+        #html = ""     #type:str
+        samn = ""     #type:str
+        all_attr = "" #type:str
+        column = ""   #type:str
+        value = ""    #type:str
+        i = ""        #type:str
+        flag = 0      #type:int
 
         for tag in self._soup_samns:
-            samn = tag.find("a").get("href") #http://www~SAMN
-            html = requests.get(f"{samn}")
-            soup = BeautifulSoup(html.content,"html.parser") 
+            samn = tag.find("a").get("href") 
+            html = requests.get(f"{samn}")                   #type:requests.models.Response
+            soup = BeautifulSoup(html.content,"html.parser") #type:BeautifulSoup
             c_tr = soup.find("table","docsum").find_all("tr")
 
             for i in c_tr:
                 column = i.th.string #attribute_key
                 value  = i.td.string.strip() #attribute_value
-                str = str+column+"\t"+value+"|"  #ex host Equus|host_neutered Yes|...the lists goes on
+                all_attr = all_attr+column+"\t"+value+"|"  #ex host Equus|host_neutered Yes|...
                 
                 #引数の辞書の条件を満たすとカウントを増やす
                 if column in select and re.search(select[column],value,re.IGNORECASE):
@@ -136,31 +142,68 @@ class BioProject:
             #引数の辞書の条件を全て満たす場合
             if flag == len(select):
                 sraname = self._sra_name_get(soup)
-                retlist.append([samn,sraname,str])
+                retlist.append([samn,sraname,all_attr])
                 
         return retlist 
 
 class BioPjtList:
     '''下記のURLで表示される各BioProjectの情報を取得するクラス
-    URL：https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=studies&f=study&term={SEARCH_WORD}&go=Go
+    URL：
+    https://trace.ncbi.nlm.nih.gov/Traces/sra/
+    sra.cgi?view=studies&f=study&go=Go&term={SEARCH_WORD}
 
+    Static Members
+    ------------------
+    BIO_PJT_URL : str
+        上記URLの定数部分
+    
+    Member
+    ------
+    _bio_bjp_url : str
+        作成された上記URLの文字列
+    
     '''
-    
-    def __init__(self,view_studies):
-        self._view_studies = view_studies
-    
+
+    BIO_BJT_URL = \
+        "https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=studies&f=study&go=Go&term="
+
+    def __init__(self,search_word):
+        self._bio_pjt_url = self.BIO_BJT_URL + '+'.join(search_word)
+
     def list_of_study(self):
-        ht = requests.get(self._view_studies)
+        '''Projectについての情報を取得する
+        以下の形式で出力
+        --------------------------------------
+        SRPxxxxxx
+        PRJNAxxxxxxx
+        Short Introduction about this project!
+        Abstract: about this project!
+        --------------------------------------
+
+        Returns
+        -------
+        List[str] 
+            それぞれのProjectの情報は上記の形式の文字列として管理
+            され、この返却値のリストの一つの要素として構成される。
+
+            補足：
+            このリストにはself._bio_pjt_urlで検索された全てのProject
+            の情報を管理する。
+         
+        '''
+        ht = requests.get(self._bio_pjt_url)
         soup = BeautifulSoup(ht.content,"html.parser").find_all("tr")
         soup.pop(0) #skip header
         list = []
+
         for i in soup:
             title  = (i.find_all("td")[2]).text.strip()
             href = i.find("a").get("href") #href = "?study=SRP~"
             srp = href.split('=')[1]
-            bpj = BioProject(srp) #instance;
-            abst = bpj.abstract() #abstract of srp
-            bpjid = bpj.bioproject_id() #bioproject-id of srp
+            bpj = BioProject(srp)          
+            abst = bpj.abstract()          
+            bpjid = bpj.bioproject_id()    
             list.append([srp,bpjid,title,abst])
+
         return list
 
