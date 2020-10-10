@@ -3,9 +3,61 @@ from bs4 import BeautifulSoup
 from typing import Dict,List
 import re
 
+#利用例
+def main1():
+    '''
+    https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?study=SRPxxxxxxx
+    のリンクにRelated Files Tableが表示されている場合に各サンプルの情報
+    を以下のフォーマットで取得する.
+
+    条件
+    ・Attributeのkeyが"host"のとき、値が"horse"のものを厳選したい場合
+
+    Format
+    ----------------------------------------------------
+    https://www.ncbi.nlm.nih.gov//biosample/SAMNxxxxxxxx  #biosampleリンク
+    SRRxxxxxxx                                            #biosampleID
+    attr1 val1                                            |
+    attr2 val2                                            #各Attributeとその値
+    attr3 val3                                            |_
+
+    -----------------------------------------------------
+    '''
+
+    srp = input("ProjectID/SRPxxxxxx : ")
+    fout = open(f'{srp}.txt','w')
+    bipjt = BioProject(srp)               #type:BioProject
+    b_info = bipjt.biosample_info(
+        "feces metagenome",
+        {
+            "host":"horse"
+        }
+    ) #type:List[List[str]]   
+
+    out_str = ""    #type:str
+    for i in b_info:
+        out_str += "{SAMN}\n{SRR}\n{ATTRIBUTE}\n".format(
+            SAMN = i[0],
+            SRR  = i[1],
+            ATTRIBUTE = "\n".join([_ for _ in i[2].split("|")])
+        )
+    out_str += "\n"
+    fout.write(out_str)
+    fout.close()
+
+def main2():
+    pass
 
 class BioProject:
     '''Bioprojectのデータを扱うクラス
+
+    <インスタンス作成条件>
+    https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?study={srp}
+    ページにRelated Files Tableが存在すること
+    存在する場合はそのテーブルのリンクから解析ファイルおよびSampleに関する
+    情報を取得するため。
+    ページにはAbstractまでしか情報が記載されていない場合は
+    この場合各サンプルの情報はExperiment->Send Toのリンクからまとめて取得可能
 
     Static Members
     --------------
@@ -17,26 +69,17 @@ class BioProject:
     _soup : BeautifulSoup
         引数で与えられたProjectIdのwebページ内容を部分オブジェクトにもつ
         BeautifulSoupクラスのインスタンス
-        
+
     '''
 
     PLOJECT_URL = "https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?study="
 
-    def __init__(self,srp,samn=False): 
+    def __init__(self,srp): 
         '''コンストラクタ
         Parameters
         -----------
         srp : str
             BioProjectID
-        samn : bool
-            True  : https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?study={srp}
-                    ページにRelated Files Tableが存在するかどうか
-                    存在する場合はそのテーブルのリンクから解析ファイルおよびSampleに関する
-                    情報を取得することになる。
-            False : https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?study=//
-                    ページにはAbstractまでしか情報が記載されていない場合。
-                    この場合各サンプルの情報はExperiment->Send Toのリンクからまとめて取得可能
-                    この処理は手動で十分事足りるため、ここでは扱わない。
 
         '''
 
@@ -45,8 +88,6 @@ class BioProject:
                 "html.parser"
             ) #type:BeautifulSoup
 
-        if samn:
-            self._soup_samns = self._soup.find_all("tr","altrow") 
 
     def abstract(self)->str:
         '''project_urlのページから研究概要を取得
@@ -105,7 +146,7 @@ class BioProject:
 
         return sraname
 
-    def biosample_info(self, select:Dict[str, str]):
+    def biosample_info(self, organism, select:Dict[str, str]):
         '''BioSampleに関する情報を取得
         URL : https://www.ncbi.nlm.nih.gov//biosample/SAMNxxxxxxx
         のページのAttribute情報を取得する。
@@ -113,6 +154,10 @@ class BioProject:
 
         Parameters
         ----------
+        organism : str
+            Related Files Tableのカラムの一つ
+            指定して出力する
+
         select : Dict[str,str]
             key : Attribute
             val : Attributeに対応する値
@@ -135,12 +180,23 @@ class BioProject:
         value = ""    #type:str
         flag = 0      #type:int
 
-        for tag in self._soup_samns: 
+        #該当しないtrタグは省く
+        sample_column = []
+        for tr in self._soup.find_all("tr"):
+            if(tr.find("td")== None):continue
+            if(tr.find("td").text) != organism :
+                continue
+            else:
+                sample_column.append(tr)
+
+        #各サンプルの概要を説明したページのカラムのリストをループ
+        for tag in sample_column: 
             samn = tag.find("a").get("href") 
             html = requests.get(f"{samn}")                   #type:requests.models.Response
             soup = BeautifulSoup(html.content,"html.parser") #type:BeautifulSoup
             c_tr = soup.find("table","docsum").find_all("tr")
 
+            all_attr = ""
             for i in c_tr:
                 column = i.th.string #attribute_key
                 value  = i.td.string.strip() #attribute_value
@@ -154,6 +210,7 @@ class BioProject:
             if flag == len(select):
                 sraname = self._sra_name_get(soup)
                 retlist.append([samn,sraname,all_attr])
+                all_attr,flag = "",0
                 
         return retlist 
 
@@ -224,3 +281,6 @@ class BioPjtList:
 
         return list
 
+
+if __name__ == "__main__":
+    main1()

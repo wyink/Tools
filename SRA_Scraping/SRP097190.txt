@@ -1,0 +1,199 @@
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243975
+SRR5189997
+host	horse
+sample type	feces
+collection date	2015-08
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep22
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243974
+SRR5189998
+host	horse
+sample type	feces
+collection date	2015-08
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep21
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243973
+SRR5189999
+host	horse
+sample type	feces
+collection date	2015-08
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep20
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243972
+SRR5190000
+host	horse
+sample type	feces
+collection date	2015-08
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep19
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243971
+SRR5190001
+host	horse
+sample type	feces
+collection date	2015-08
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep18
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243970
+SRR5190002
+host	horse
+sample type	feces
+collection date	2015-07
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep17
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243969
+SRR5190003
+host	horse
+sample type	feces
+collection date	2015-07
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep16
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243968
+SRR5190004
+host	horse
+sample type	feces
+collection date	2015-07
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep15
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243967
+SRR5190005
+host	horse
+sample type	feces
+collection date	2015-07
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep14
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243966
+SRR5190006
+host	horse
+sample type	feces
+collection date	2015-07
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep13
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243965
+SRR5190007
+host	horse
+sample type	feces
+collection date	2015-07
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep12
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243964
+SRR5190008
+host	horse
+sample type	feces
+collection date	2015-07
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep11
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243963
+SRR5190009
+host	horse
+sample type	feces
+collection date	2015-07
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep10
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243962
+SRR5190010
+host	horse
+sample type	feces
+collection date	2015-07
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep9
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243961
+SRR5190011
+host	horse
+sample type	feces
+collection date	2015-07
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep8
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243960
+SRR5190012
+host	horse
+sample type	feces
+collection date	2015-07
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep7
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243959
+SRR5190013
+host	horse
+sample type	feces
+collection date	2015-07
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep6
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243958
+SRR5190014
+host	horse
+sample type	feces
+collection date	2015-06
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep5
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243957
+SRR5190015
+host	horse
+sample type	feces
+collection date	2014-11
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep4
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243956
+SRR5190016
+host	horse
+sample type	feces
+collection date	2014-11
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep3
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243955
+SRR5190017
+host	horse
+sample type	feces
+collection date	2014-11
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep2
+
+https://www.ncbi.nlm.nih.gov//biosample/SAMN06243954
+SRR5190018
+host	horse
+sample type	feces
+collection date	2014-11
+geographic location	USA: Wisconsin
+latitude and longitude	43.07 N 89.40 W
+host_rep	horse_rep1
+
+
