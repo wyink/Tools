@@ -14,29 +14,41 @@ class BioProject:
 
     Members
     --------
-    srp : str
-        BioProjectID
-    samn : bool
-        True  : https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?study={srp}
-                ページにRelated Files Tableが存在するかどうか
-                存在する場合はそのテーブルのリンクから解析ファイルおよびSampleに関する
-                情報を取得することになる。
-        False : https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?study=//
-                ページにはAbstractまでしか情報が記載されていない場合。
-                この場合各サンプルの情報はExperiment->Send Toのリンクからまとめて取得可能
-                この処理は手動で十分事足りるため、ここでは扱わない。
+    _soup : BeautifulSoup
+        引数で与えられたProjectIdのwebページ内容を部分オブジェクトにもつ
+        BeautifulSoupクラスのインスタンス
         
-
     '''
+
     PLOJECT_URL = "https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?study="
 
     def __init__(self,srp,samn=False): 
-        self._srp = requests.get(self.PLOJECT_URL + srp )
-        self._soup = BeautifulSoup(self._srp.content,"html.parser")
+        '''コンストラクタ
+        Parameters
+        -----------
+        srp : str
+            BioProjectID
+        samn : bool
+            True  : https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?study={srp}
+                    ページにRelated Files Tableが存在するかどうか
+                    存在する場合はそのテーブルのリンクから解析ファイルおよびSampleに関する
+                    情報を取得することになる。
+            False : https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?study=//
+                    ページにはAbstractまでしか情報が記載されていない場合。
+                    この場合各サンプルの情報はExperiment->Send Toのリンクからまとめて取得可能
+                    この処理は手動で十分事足りるため、ここでは扱わない。
 
-        if samn:self._soup_samns = self._soup.find_all("tr","altrow")
+        '''
 
-    def abstract(self):
+        self._soup = BeautifulSoup(
+                requests.get(self.PLOJECT_URL + srp ).content,
+                "html.parser"
+            ) #type:BeautifulSoup
+
+        if samn:
+            self._soup_samns = self._soup.find_all("tr","altrow") 
+
+    def abstract(self)->str:
         '''project_urlのページから研究概要を取得
 
         Returns
@@ -44,12 +56,13 @@ class BioProject:
         str : 研究概要を示す文字列
 
         '''
-        abstract,s = "",""
+        abstract = "" #type:str
+        
         s =self._soup.find_all(class_="row")
         abstract = s[2].text.strip()
         return abstract
 
-    def bioproject_id(self):
+    def bioproject_id(self)->str:
         '''project_urlのページからBioProjectIDを取得
 
         Returns
@@ -57,7 +70,8 @@ class BioProject:
         str : BioProjectIDを示す文字列
 
         '''
-        projectid,s = "",""
+        projectid = "" #type:str
+
         s = self._soup.find_all(class_="row")
         projectid = s[0].find("a").text
         return projectid
@@ -113,18 +127,15 @@ class BioProject:
         '''
 
         c_tr=[]
-        retlist = [] #type:List[str]
+        retlist = [] #type:List[List[str]]
 
-        #tag = ""      #type:str
-        #html = ""     #type:str
         samn = ""     #type:str
         all_attr = "" #type:str
         column = ""   #type:str
         value = ""    #type:str
-        i = ""        #type:str
         flag = 0      #type:int
 
-        for tag in self._soup_samns:
+        for tag in self._soup_samns: 
             samn = tag.find("a").get("href") 
             html = requests.get(f"{samn}")                   #type:requests.models.Response
             soup = BeautifulSoup(html.content,"html.parser") #type:BeautifulSoup
@@ -170,7 +181,7 @@ class BioPjtList:
     def __init__(self,search_word):
         self._bio_pjt_url = self.BIO_BJT_URL + '+'.join(search_word)
 
-    def list_of_study(self):
+    def list_of_study(self)->List[List[str]]:
         '''Projectについての情報を取得する
         以下の形式で出力
         --------------------------------------
@@ -182,7 +193,7 @@ class BioPjtList:
 
         Returns
         -------
-        List[str] 
+        List[List[str]] 
             それぞれのProjectの情報は上記の形式の文字列として管理
             され、この返却値のリストの一つの要素として構成される。
 
@@ -191,18 +202,24 @@ class BioPjtList:
             の情報を管理する。
          
         '''
+
         ht = requests.get(self._bio_pjt_url)
         soup = BeautifulSoup(ht.content,"html.parser").find_all("tr")
         soup.pop(0) #skip header
-        list = []
 
+        srp = ""   #type:str
+        bpjid = "" #type:str
+        title = "" #type:str
+        abst = ""  #type:str
+        list = []  #List[List[str]]
+        
         for i in soup:
             title  = (i.find_all("td")[2]).text.strip()
             href = i.find("a").get("href") #href = "?study=SRP~"
-            srp = href.split('=')[1]
-            bpj = BioProject(srp)          
-            abst = bpj.abstract()          
-            bpjid = bpj.bioproject_id()    
+            srp = href.split('=')[1]    
+            bpj = BioProject(srp)       #type:BioProject       
+            abst = bpj.abstract()            
+            bpjid = bpj.bioproject_id() 
             list.append([srp,bpjid,title,abst])
 
         return list
