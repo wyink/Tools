@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from typing import Dict,List
 import re
 
-#利用例
+#利用例1
 def main1():
     '''
     https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?study=SRPxxxxxxx
@@ -45,8 +45,29 @@ def main1():
     fout.write(out_str)
     fout.close()
 
+#利用例2
 def main2():
-    pass
+    '''Projectリストの情報をまとめて出力
+
+    下記のSEARCH_WORDを検索ワードに置換したURLにGETでアクセスした際のレスポンスで
+    Projectのリスト（AccessionIDをキーとするテーブル）を得られる。この全ての
+    Projectの情報をまとめて出力する。
+
+    https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=studies&f=study&term={SEARCH_WORD}&go=Go
+
+    今回の例では検索単語に"horse","feces","metagenome"を指定した場合かつ、
+    出力ファイルをproject_info.txtとしている。
+
+    '''
+    f = open("project_info.txt","w",encoding="utf-8")
+    bp= BioPjtList(["horse","feces","metagenome"])
+
+    for each_study in bp.list_of_study():
+        for content in each_study :
+            f.write(f"{content}\n")
+        f.write("\n")
+    f.close()
+
 
 class BioProject:
     '''Bioprojectのデータを扱うクラス
@@ -236,6 +257,13 @@ class BioPjtList:
         "https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=studies&f=study&go=Go&term="
 
     def __init__(self,search_word):
+        '''コンストラクタ
+        Parameters
+        ----------
+        search_word : List[str]
+            Search Formにスペースを開けて検索に利用した単語のリスト
+
+        '''
         self._bio_pjt_url = self.BIO_BJT_URL + '+'.join(search_word)
 
     def list_of_study(self)->List[List[str]]:
@@ -283,4 +311,5 @@ class BioPjtList:
 
 
 if __name__ == "__main__":
-    main1()
+   # main1()
+   main2()

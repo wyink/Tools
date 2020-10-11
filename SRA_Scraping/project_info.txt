@@ -1,0 +1,65 @@
+SRP076876
+PRJNA326194
+feces metagenome strain:Bacteria | isolate:Fecal bacteria | breed:Thoroughbred Metagenome
+Abstract: Resilience in the population dynamics of fecal microbiota in stabled Thoroughbred horses during abrupt dietary transition between freshly cut pasture and three forage-based diets.
+
+SRP093466
+PRJNA353649
+horse feces metagenome Targeted loci environmental
+Abstract: Horse fecal samples were analyzed using v4 16S rRNA specific primers to examine the regrowth of microorganisms within horse fecal samples and to examine the effects of sampling methodology on horse fecal microbiome determination.
+
+SRP097190
+PRJNA362214
+gut metagenome Raw sequence reads
+Abstract: Fibrobacter is a genus of cellulose-degrading bacteria that includes species demonstrated to be important for fiber digestion in the rumen of animals such as cattle. However, less is known regarding populations in the guts of non-ruminant herbivores. Samples of gastrointestinal contents and feces from diverse herbivores were collected and analyzed using both culture and culture-independent approaches to determine Fibrobacter presence, abundance, and phylogenetic diversity in these systems. These data were generated using Illumina sequencing of V4 16S rRNA amplicons in order to assess whether sequences generated from isolates were representative of the abundant populations in vivo, as well as to determine relationships with other bacterial taxa.
+
+SRP144979
+PRJNA464404
+Relic DNA 16S rRNA Targeted Sequencing
+Abstract: 16S rRNA sequences used for a survey to determine the effects of relic DNA on estimates to bacterial diversity. Environments included: soil, sediment, water, host.
+
+SRP156332
+PRJNA484387
+Australia animal feces and fresh water Metagenome
+Abstract: Application of SourceTracker in Freshwater Samples in Australia
+
+SRP159537
+PRJNA489201
+Accounting for bacterial overlap between raw water communities and contaminating sources improves the accuracy of microbial source tracking
+Abstract: Microbial source tracking (MST) analysis is essential to identifying and mitigating the fecal pollution of water resources. The signature-based MST method uses a library of sequences to identify contaminants based on operational taxonomic units (OTUs) that are unique to a certain source. However, no clear guidelines for how to incorporate OTU overlap or natural variation in the raw water bacterial community into MST analyses exist.We investigated how the inclusion of bacterial overlap between sources in the library affects source prediction accuracy. To achieve this, large-scale sampling – including feces from seven species, raw sewage, and raw water samples from water treatment plants – was followed by 16S rRNA amplicon sequencing. The MST library was defined using three settings: (i) no raw water communities represented; (ii) raw water communities selected through clustering analysis; and (iii) local water communities collected across consecutive years.
+
+SRP163102
+PRJNA493817
+Horse fecal Metagenome
+Abstract: Effect of sequencing coverage reduction on species identification in complex biological matrix
+
+SRP199108
+PRJNA543979
+Feruloyl esterase producing prokaryotes in anaerobic and microaerobic ecosystems
+Abstract: In this study we applied whole genome shotgun metagenomics and genome binning to screen prokaryotes in anaerobic and microaerobic ecosystems for possession of feruloyl esterase genes.
+
+SRP219770
+PRJNA562547
+C. difficile and the host fecal microbiota in domestic animals
+Abstract: Carriage of Clostridioides difficile in domestic animals has been linked with community-acquired C. difficile infection in humans. The goal of this study was to determine the prevalence of C. difficile in different domestic animals and associations between C. difficile presence and the host fecal microbiota. This BioProject contains community sequencing data from amplicon sequencing of the V4 region of the 16S rRNA gene of fecal samples from 197 animals (105 Canine, 70 Equine, 15 Feline, 5 Ovine, 1 Alpaca, and 1 Avian) collected at the North Carolina State University Veterinary Hospital. Host metadata and the results of laboratory assays for C. difficile presence, toxin profiling, and strain typing are included.
+
+SRP225233
+PRJNA576943
+Animal fecal samples BV6
+Abstract: V6 region sequences of 16S rRNA gene from animal fecal samples collected from the U.S. and Australia.
+
+SRP230873
+PRJNA590977
+Horse metagenome
+Abstract: Shotgun metagenome of horse feces
+
+SRP233895
+PRJNA591963
+V4V5 animal fecal samples
+Abstract: Bacterial community of animal fecal samples targeting the V4V5 region of the 16S rRNA gene
+
+SRP233897
+PRJNA591976
+V4 animal fecal samples
+Abstract: Bacterial community in animal fecal samples by targeting the V4 region of the 16S rRNA gene
+
