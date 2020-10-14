@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head><title>Mytube App</title></head>
+    <body>
+    <div id="mov">
+        <iframe class='movframe' height="315" width="510" src=""> </iframe>    
+    </div>
+    <div >
+        <form action id ="search-box">
+            <input type = "text" placeholder = "URL探索" class="search">
+            <input type = "button" onclick="onClick();">
+        </form>
+    </div>
+    <div class="youtube-box">
+        <div id= "title">
+            <h1 id = "titleh"> title </h1>    
+        </div>
+        <ul id = "comment">
+            <li> comment1 </li>
+            <li> comment2 </li>
+            <li> comment3 </li>
+            <li> comment4 </li>
+            <li> comment5 </li>
+        </ul>
+        <script src="https://apis.google.com/js/api.js"></script>
+        <script>
+            function onClick(){
+                //urlのパース
+                const yourl = 'https://www.youtube.com/';
+                var url = document.getElementsByClassName('search')[0].value;
+                var tmp =  url.match(/.+watch\?v=(.+)/);
+                var videoId = tmp[1];
+                const embed = yourl + 'embed/' + videoId ;//埋め込み動画専用のURLに変更する
+
+                //iframeタグを利用して動画を表示
+                var iframe = document.getElementsByClassName('movframe')[0] ;
+                iframe.src = embed;
+          
+                //youtubeのAPIキーをセット
+                const APIKEY = 'Your API key'; 
+
+                //動画のタイトルを取得
+                const title_url = 'https://www.googleapis.com/youtube/v3/videos' ;
+                fetch(title_url + '?id=' + videoId + '&key=' + APIKEY + '&part=snippet,contentDetails,statistics,status')
+                .then(response => response.json())
+                .then(data => {
+                    //タイトルの表示処理
+                    console.log(data.items[0].snippet.title);//タイトルの文字列
+                    document.getElementById('titleh').innerHTML = data.items[0].snippet.title;
+                });
+
+                //動画のコメントを取得
+                const comment_url = 'https://www.googleapis.com/youtube/v3/commentThreads';
+                fetch(comment_url + '?part=snippet,replies&videoId=' + videoId + '&key=' + APIKEY)
+                .then(response => response.json())
+                .then(data => {
+                    //コメント表示処理
+                    var list = data.items;
+                        for(var i=0;i<5;++i){
+                            console.log(list[i].snippet.topLevelComment.snippet.textOriginal);
+                            document.getElementById('comment').children[i].innerHTML =  list[i].snippet.topLevelComment.snippet.textOriginal;
+                        }
+                });
+            }
+
+        </script>
+    </body>
+</html>
