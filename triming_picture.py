@@ -24,7 +24,7 @@ def size_cut(img_path,screen):
     return new_img
 
 def rename_all():
-    origin_dir = r'C:/Users/accel001/Pictures/Screenshots'
+    origin_dir = "your Directory"
     img_paths = glob.glob(f'{origin_dir}/*.png')
     for img_path in img_paths:
         num = re.search(r'スクリーンショット\s[(](\d+)[)].png$',img_path).group(1)
@@ -44,7 +44,7 @@ output = input('filename: ')
 screen = input('screen half or full: ')
 
 d={} #for sort d[num] = img_path
-imgs = glob.glob('C:/Users/accel001/Pictures/Screenshots/scr/*.png')
+imgs = glob.glob('path to pingFile')
 for img in imgs:
     num = re.search(r'.+?(\d+).png',img).group(1)
     num = int(num)
