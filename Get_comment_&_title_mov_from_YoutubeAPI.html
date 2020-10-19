@@ -27,13 +27,13 @@
             function onClick(){
                 //urlのパース
                 const yourl = 'https://www.youtube.com/';
-                var url = document.getElementsByClassName('search')[0].value;
-                var tmp =  url.match(/.+watch\?v=(.+)/);
-                var videoId = tmp[1];
+                const url = document.getElementsByClassName('search')[0].value;
+                const tmp =  url.match(/.+watch\?v=(.+)/);
+                const videoId = tmp[1];
                 const embed = `${yourl}embed/${videoId}` ;//埋め込み動画専用のURLに変更する
 
                 //iframeタグを利用して動画を表示
-                var iframe = document.getElementsByClassName('movframe')[0] ;
+                const iframe = document.getElementsByClassName('movframe')[0] ;
                 iframe.src = embed;
           
                 //youtubeのAPIキーをセット
