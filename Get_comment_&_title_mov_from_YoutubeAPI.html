@@ -37,7 +37,7 @@
                 iframe.src = embed;
           
                 //youtubeのAPIキーをセット
-                const APIKEY = 'Your API key'; 
+                const APIKEY = 'Your API Key'; 
 
                 //動画のタイトルを取得
                 const title_url = 'https://www.googleapis.com/youtube/v3/videos' ;
@@ -55,8 +55,8 @@
                 .then(response => response.json())
                 .then(data => {
                     //コメント表示処理
-                    var list = data.items;
-                        for(var i=0;i<5;++i){
+                    let list = data.items;
+                        for(let i=0;i<5;++i){
                             console.log(list[i].snippet.topLevelComment.snippet.textOriginal);
                             document.getElementById('comment').children[i].innerHTML =  list[i].snippet.topLevelComment.snippet.textOriginal;
                         }
