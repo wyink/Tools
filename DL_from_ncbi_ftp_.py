@@ -1,6 +1,5 @@
 from ftplib import FTP
 from urllib.parse import urlparse
-import re
 import time
 import os
 from typing import List,
@@ -17,20 +16,34 @@ class NcbiFtp:
 
     NCBI_FTP_PATH = "ftp://ftp.ncbi.nlm.nih.gov"
 
-    def __init__(self,files:List[str]) -> None:
+    def __init__(self, your_ftp_path:str) -> None:
         '''
-        files : str
+        your_ftp_path : str
             NCBI(National Center for Biotechnology Information)の
-            FTPサイト[ftp://ftp.ncbi.nlm.nih.gov]から
-            指定したファイル
+            FTPパス[ftp://ftp.ncbi.nlm.nih.gov]を含むURL
+            
+            ex.
+            ftp://ftp.ncbi.nlm.nih.gov/
+                genomes/all/GCF/000/013/285/GCF_000013285.1_ASM1328v1
 
         '''
-        self.files =  files #type:List[str]
+        #self.your_ftp_path =  your_ftp_path #type:str
+        self.ftp = FTP(urlparse(NcbiFtp.NCBI_FTP_PATH).netloc).login
+        self.ftp.login()
 
-    def download(self,func):
+    def __del__(self):
+        self.ftp.quit()
+    
+    def download(self,func=lambda upath:upath.rsplit('/',1)[1]):
         '''メンバ変数のファイルをダウンロード
         func : function
             個々のファイル名前を指定もしくは切り出して指定
+            default-func(upath)->str:
+                引数のupathはurlのパス
+                識別子としての役割を果たすと期待される
+                長いurlをスラッシュで区切った際の最も左の文字列
+                返却後の文字列はダウンロード後のファイル名に指定
+                
         '''
 
         for file in self.files:
@@ -45,8 +58,9 @@ class NcbiFtp:
             files = ftp.nlst('.') #current dir
 
             #一時ディレクトリ作成
-            tmp_dir = webcudir.rsplit('/',1)[1]
+            #tmp_dir = webcudir.rsplit('/',1)[1]
             dir = f'resources/strain_data/{tmp_dir}'
+            #
             os.mkdir(dir)
 
             #store
