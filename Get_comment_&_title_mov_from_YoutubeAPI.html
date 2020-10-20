@@ -28,9 +28,9 @@
                 if(obj.hasOwnProperty(key)){
                     return obj[key];
                 }
-                for(let val of obj){
-                    if(typeof val === 'object'){
-                        return valueGet(val, key);
+                for(let k in obj){
+                    if(typeof obj[k] === 'object'){
+                        return valueGet(obj[k], key);
                     }
                 }
             }
