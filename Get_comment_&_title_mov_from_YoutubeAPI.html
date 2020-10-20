@@ -24,30 +24,16 @@
         </ul>
         <script src="https://apis.google.com/js/api.js"></script>
         <script>
-
-            function commentGet(obj){
-                if (obj.hasOwnProperty('textOriginal')){
-                    return obj.textOriginal;
+            function valueGet(obj, key) {
+                if(obj.hasOwnProperty(key)){
+                    return obj[key];
                 }
-                for(let key in obj) {
-                    if(typeof obj[key] === 'object'){
-                        return commentGet(obj[key]);
-                    }
-                }
-
-            }
-
-            function titleGet(obj){
-                if(obj.hasOwnProperty('title')){
-                    return obj.title;
-                }
-                for(let key in obj){
-                    if(typeof obj[key] === 'object'){
-                        return titleGet(obj[key]);
+                for(let k in obj){
+                    if(typeof obj[k] === 'object'){
+                        return valueGet(obj[k], key);
                     }
                 }
             }
-
 
             function onClick(){
                 //urlのパース
@@ -70,7 +56,7 @@
                 .then(response => response.json())
                 .then(data => {
                     //タイトルの表示処理
-                    document.getElementById('titleh').innerHTML = titleGet(data.items[0]);
+                    document.getElementById('titleh').innerHTML = valueGet(data.items[0], "title");
                 });
 
                 //動画のコメントを取得
@@ -87,7 +73,7 @@
                     }
 
                     for(let i =0;i<display.length;++i){
-                        document.getElementById('comment').children[i].innerHTML = commentGet(display[i]);
+                        document.getElementById('comment').children[i].innerHTML = valueGet(display[i], "textOriginal");
                     }
                 });
             }
