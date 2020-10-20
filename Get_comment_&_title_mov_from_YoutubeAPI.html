@@ -24,6 +24,31 @@
         </ul>
         <script src="https://apis.google.com/js/api.js"></script>
         <script>
+
+            function commentGet(obj){
+                if (obj.hasOwnProperty('textOriginal')){
+                    return obj.textOriginal;
+                }
+                for(let key in obj) {
+                    if(typeof obj[key] === 'object'){
+                        return commentGet(obj[key]);
+                    }
+                }
+
+            }
+
+            function titleGet(obj){
+                if(obj.hasOwnProperty('title')){
+                    return obj.title;
+                }
+                for(let key in obj){
+                    if(typeof obj[key] === 'object'){
+                        return titleGet(obj[key]);
+                    }
+                }
+            }
+
+
             function onClick(){
                 //urlのパース
                 const yourl = 'https://www.youtube.com/';
@@ -37,7 +62,7 @@
                 iframe.src = embed;
           
                 //youtubeのAPIキーをセット
-                const APIKEY = 'Your API Key'; 
+                const APIKEY = ''; 
 
                 //動画のタイトルを取得
                 const title_url = 'https://www.googleapis.com/youtube/v3/videos' ;
@@ -45,8 +70,7 @@
                 .then(response => response.json())
                 .then(data => {
                     //タイトルの表示処理
-                    console.log(data.items[0].snippet.title);//タイトルの文字列
-                    document.getElementById('titleh').innerHTML = data.items[0].snippet.title;
+                    document.getElementById('titleh').innerHTML = titleGet(data.items[0]);
                 });
 
                 //動画のコメントを取得
@@ -55,14 +79,20 @@
                 .then(response => response.json())
                 .then(data => {
                     //コメント表示処理
-                    let list = data.items;
-                        for(let i=0;i<5;++i){
-                            console.log(list[i].snippet.topLevelComment.snippet.textOriginal);
-                            document.getElementById('comment').children[i].innerHTML =  list[i].snippet.topLevelComment.snippet.textOriginal;
-                        }
+                    let display = (data.items);
+                    
+                    //上位５件の新しいコメントを表示
+                    if(display.length>5){
+                        display = display.slice(0,5);
+                    }
+
+                    for(let i =0;i<display.length;++i){
+                        document.getElementById('comment').children[i].innerHTML = commentGet(display[i]);
+                    }
                 });
             }
 
+            
         </script>
     </body>
 </html>
